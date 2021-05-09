@@ -14,6 +14,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 header('Access-Control-Allow-Origin: *');
 
+$upload_dir = './upload/';
+$file = $upload_dir . basename($_FILES['image']['tmp_name'].$_FILES['image']['name']);
+$file_image = '/upload/' . basename($_FILES['image']['tmp_name'].$_FILES['image']['name']);
+
+if (!move_uploaded_file($_FILES['image']['tmp_name'], $file)) {
+  $response = [
+    'message' => "Error al subir la imagen.",
+  ];
+  echo json_encode($file);
+  header("HTTP/1.1 400 Error upload file");
+  return;
+}
+
 $headers = apache_request_headers();
 
 if (!$headers["Authorization"]) {
@@ -43,13 +56,12 @@ try {
   $role = $_POST["role"];
   $name = $_POST["name"];
   $job = $_POST["job"];
-  $image = $_POST["image"];
   $email = $_POST["email"];
   $password = hashPassword($_POST["password"]);
   $contract = $_POST["contract"];
   $hourly = $_POST["hourly"];
 
-  $query = "INSERT INTO user(image, role, name, job, email, password, contract, hourly) VALUES ('$image', '$role', '$name', '$job', '$email', '$password', '$contract', '$hourly')";
+  $query = "INSERT INTO user(image, role, name, job, email, password, contract, hourly) VALUES ('$file_image', '$role', '$name', '$job', '$email', '$password', '$contract', '$hourly')";
 
   api_post($query);
   $response = [

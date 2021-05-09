@@ -6,16 +6,25 @@ include "../helpers/password.php";
 
 header("Access-Control-Allow-Origin:*");
 
-$username = $_POST["username"];
+if (!$_POST["email"]) {
+  $response = [
+    'message' => "Usuario no encontrado"
+  ];
+  echo json_encode($response);
+  header("HTTP/1.1 400 User not found");
+  return;
+}
 
-$query = "SELECT * FROM admin WHERE username='$username'";
+$email = $_POST["email"];
+
+$query = "SELECT * FROM user WHERE email='$email'";
 
 $result = api_get($query);
 
 if ($result) {
-  $admin_password = $result[0]["password"];
+  $user_password = $result[0]["password"];
   $password = $_POST["password"];
-  if (!password_verify($password, $admin_password)) {
+  if (!password_verify($password, $user_password)) {
     $response = new stdClass();
     $response->message = "Clave incorrecta";
     echo json_encode($response);
@@ -23,7 +32,7 @@ if ($result) {
     return;
   }
   $payload = [
-    'id' => $result[0]["id_admin"]
+    'id' => $result[0]["id_user"]
   ];
   $auth = array("token" => createToken($payload));
   $response = array_merge($auth, $result[0]);
@@ -35,7 +44,7 @@ if ($result) {
   $response = new stdClass();
   $response->message = "Usuario no encontrado";
   echo json_encode($response);
-  header("HTTP/1.1 404 Admin not found");
+  header("HTTP/1.1 404 User not found");
 }
 
 ?>
