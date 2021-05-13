@@ -2,6 +2,7 @@
 
 include "../config/database.php";
 include "../helpers/token.php";
+include "../helpers/password.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   header('Access-Control-Allow-Origin: *');
@@ -19,7 +20,7 @@ if (!$headers["authorization"]) {
   $response = [
     'message' => "No authorization header"
   ];
-  echo json_encode($response);
+  echo json_encode($headers);
   header("HTTP/1.1 401 No authorization header");
   return;
 }
@@ -35,52 +36,31 @@ if (!$token_auth) {
   return;
 }
 
-$upload_dir = './upload/';
-$file = $upload_dir . basename($_FILES['image']['tmp_name'].$_FILES['image']['name']);
-$file_image = '/upload/' . basename($_FILES['image']['tmp_name'].$_FILES['image']['name']);
-
-
-if (!move_uploaded_file($_FILES['image']['tmp_name'], $file)) {
-  $response = [
-    'message' => "No se envio una imagen.",
-  ];
-  echo json_encode($file);
-  header("HTTP/1.1 400 Error upload file");
-  return;
-}
-
 try {
   $token_auth = $headers["authorization"];
   $token_decode = decodeToken($token_auth);
   $id_user = $token_decode->id;
+  // Get data
+  $new_password = hashPassword($_POST["newPassword"]);
 
-  $query = "SELECT image FROM user WHERE id_user='$id_user'";
-  $result = api_get($query);
-  $image = $result[0]["image"];
-
-  // Delete file
-  unlink(".".$image);
-
-  $query = "UPDATE user SET image='$file_image' WHERE id_user='$id_user'";
-
+  $query = "UPDATE user SET password = '$new_password' WHERE id_user='$id_user'";
+  
   api_post($query);
-
-  $query = "SELECT image FROM user WHERE id_user='$id_user'";
-  $result = api_get($query);
-  $image = $result[0]["image"];
-
+  
   $response = [
-    'message' => "Perfil modificado",
-    'image' => $image
+    'message' => "Contraseña actualizada correctamente",
   ];
   echo json_encode($response);
   header("HTTP/1.1 200 OK");
 } catch(Exception $e) {
   $response = [
-    'message' => $e
+    'message' => $e,
+    'error' => "Token invalido, contacte con el administrador"
   ];
   echo json_encode($response);
-  header("HTTP/1.1 401 '$e'");
+  header("HTTP/1.1 400 '$e'");
 }
+
+
 
 ?>

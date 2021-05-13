@@ -2,7 +2,6 @@
 
 include "../config/database.php";
 include "../helpers/token.php";
-include "../helpers/password.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   header('Access-Control-Allow-Origin: *');

@@ -2,7 +2,6 @@
 
 include "../config/database.php";
 include "../helpers/token.php";
-include "../helpers/password.php";
 
 header("Access-Control-Allow-Origin:*");
 
