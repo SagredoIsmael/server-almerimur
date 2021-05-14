@@ -39,11 +39,11 @@ if (!$token_auth) {
 try {
   $token_auth = $headers["authorization"];
   $token_decode = decodeToken($token_auth);
-  $id_user = $token_decode->id;
+  $user_id = $token_decode->id;
   // Get data
   $new_password = hashPassword($_POST["newPassword"]);
 
-  $query = "UPDATE user SET password = '$new_password' WHERE id_user='$id_user'";
+  $query = "UPDATE user SET user_password = '$new_password' WHERE user_id='$user_id'";
   
   api_post($query);
   

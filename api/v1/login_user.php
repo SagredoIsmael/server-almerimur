@@ -16,12 +16,12 @@ if (!$_POST["email"]) {
 
 $email = $_POST["email"];
 
-$query = "SELECT * FROM user WHERE email='$email'";
+$query = "SELECT * FROM user WHERE user_email='$email'";
 
 $result = api_get($query);
 
 if ($result) {
-  $user_password = $result[0]["password"];
+  $user_password = $result[0]["user_password"];
   $password = $_POST["password"];
   if (!password_verify($password, $user_password)) {
     $response = new stdClass();
@@ -31,7 +31,7 @@ if ($result) {
     return;
   }
   $payload = [
-    'id' => $result[0]["id_user"]
+    'id' => $result[0]["user_id"]
   ];
   $auth = array("token" => createToken($payload));
   $response = array_merge($auth, $result[0]);

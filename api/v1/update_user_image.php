@@ -52,22 +52,22 @@ if (!move_uploaded_file($_FILES['image']['tmp_name'], $file)) {
 try {
   $token_auth = $headers["authorization"];
   $token_decode = decodeToken($token_auth);
-  $id_user = $token_decode->id;
+  $user_id = $token_decode->id;
 
-  $query = "SELECT image FROM user WHERE id_user='$id_user'";
+  $query = "SELECT user_image FROM user WHERE user_id='$user_id'";
   $result = api_get($query);
-  $image = $result[0]["image"];
+  $image = $result[0]["user_image"];
 
   // Delete file
   unlink(".".$image);
 
-  $query = "UPDATE user SET image='$file_image' WHERE id_user='$id_user'";
+  $query = "UPDATE user SET user_image='$file_image' WHERE user_id='$user_id'";
 
   api_post($query);
 
-  $query = "SELECT image FROM user WHERE id_user='$id_user'";
+  $query = "SELECT user_image FROM user WHERE user_id='$user_id'";
   $result = api_get($query);
-  $image = $result[0]["image"];
+  $image = $result[0]["user_image"];
 
   $response = [
     'message' => "Perfil modificado",

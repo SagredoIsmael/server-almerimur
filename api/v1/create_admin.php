@@ -8,7 +8,7 @@ header("Access-Control-Allow-Origin:*");
 $username = $_POST["username"];
 $password = hashPassword($_POST["password"]);
 
-$query = "INSERT INTO admin(username, password) VALUES ('$username', '$password')";
+$query = "INSERT INTO admin(admin_username, admin_password) VALUES ('$username', '$password')";
 
 api_post($query);
 

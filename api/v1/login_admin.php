@@ -7,12 +7,12 @@ header("Access-Control-Allow-Origin:*");
 
 $username = $_POST["username"];
 
-$query = "SELECT * FROM admin WHERE username='$username'";
+$query = "SELECT * FROM admin WHERE admin_username='$username'";
 
 $result = api_get($query);
 
 if ($result) {
-  $admin_password = $result[0]["password"];
+  $admin_password = $result[0]["admin_password"];
   $password = $_POST["password"];
   if (!password_verify($password, $admin_password)) {
     $response = new stdClass();
@@ -22,7 +22,7 @@ if ($result) {
     return;
   }
   $payload = [
-    'id' => $result[0]["id_admin"]
+    'id' => $result[0]["admin_id"]
   ];
   $auth = array("token" => createToken($payload));
   $response = array_merge($auth, $result[0]);

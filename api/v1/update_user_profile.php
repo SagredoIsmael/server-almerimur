@@ -38,15 +38,15 @@ if (!$token_auth) {
 try {
   $token_auth = $headers["authorization"];
   $token_decode = decodeToken($token_auth);
-  $id_user = $token_decode->id;
+  $user_id = $token_decode->id;
   $name = $_POST["name"];
   $job = $_POST["job"];
 
-  $query = "UPDATE user SET name = '$name', job = '$job' WHERE id_user='$id_user'";
+  $query = "UPDATE user SET user_name = '$name', user_job = '$job' WHERE user_id='$user_id'";
   
   api_post($query);
   
-  $query = "SELECT name, job, image FROM user WHERE id_user='$id_user'";
+  $query = "SELECT user_name, user_job FROM user WHERE user_id='$user_id'";
   $result = api_get($query);
   $profile = $result[0];
 
@@ -64,7 +64,5 @@ try {
   echo json_encode($response);
   header("HTTP/1.1 400 '$e'");
 }
-
-
 
 ?>
