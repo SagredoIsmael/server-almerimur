@@ -6,7 +6,7 @@ include "../helpers/token.php";
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   header('Access-Control-Allow-Origin: *');
   header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
-  header('Access-Control-Allow-Headers: Authorization, Content-Type, authorization');
+  header('Access-Control-Allow-Headers: authorization, Content-Type, authorization');
   header('Access-Control-Max-Age: 1728000');
   die();
 }

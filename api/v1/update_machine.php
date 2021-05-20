@@ -6,12 +6,13 @@ include "../helpers/token.php";
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   header('Access-Control-Allow-Origin: *');
   header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
-  header('Access-Control-Allow-Headers: authorization, Content-Type, authorization');
+  header('Access-Control-Allow-Headers: authorization, Content-Type');
   header('Access-Control-Max-Age: 1728000');
   die();
 }
 
 header('Access-Control-Allow-Origin: *');
+
 
 $headers = apache_request_headers();
 
@@ -35,44 +36,20 @@ if (!$token_auth) {
   return;
 }
 
-$upload_dir = './upload/';
-$file = $upload_dir . basename($_FILES['image']['tmp_name'].$_FILES['image']['name']);
-$file_image = '/upload/' . basename($_FILES['image']['tmp_name'].$_FILES['image']['name']);
-
-
-if (!move_uploaded_file($_FILES['image']['tmp_name'], $file)) {
-  $response = [
-    'message' => "No se envio una imagen.",
-  ];
-  echo json_encode($file);
-  header("HTTP/1.1 400 Error upload file");
-  return;
-}
-
 try {
   $token_auth = $headers["authorization"];
   $token_decode = decodeToken($token_auth);
-  $user_id = $token_decode->id;
 
-  $query = "SELECT user_image FROM user WHERE user_id='$user_id'";
-  $result = api_get($query);
-  $image = $result[0]["user_image"];
+  $id = $_POST["id"];
+  $name = $_POST["name"];
 
-  // Delete file
-  unlink(".".$image);
-
-  $query = "UPDATE user SET user_image='$file_image' WHERE user_id='$user_id'";
-
+  $query = "UPDATE machine SET machine_name='$name' WHERE machine_id='$id'";
   api_post($query);
 
-  $query = "SELECT user_image FROM user WHERE user_id='$user_id'";
-  $result = api_get($query);
-  $image = $result[0]["user_image"];
-
   $response = [
-    'message' => "Perfil modificado",
-    'image' => $image
+    'message' => "Datos de la maquina actualizados",
   ];
+
   echo json_encode($response);
   header("HTTP/1.1 200 OK");
 } catch(Exception $e) {

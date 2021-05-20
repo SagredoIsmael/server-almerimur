@@ -6,7 +6,7 @@ include "../helpers/token.php";
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   header('Access-Control-Allow-Origin: *');
   header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
-  header('Access-Control-Allow-Headers: Authorization, Content-Type');
+  header('Access-Control-Allow-Headers: authorization, Content-Type');
   header('Access-Control-Max-Age: 1728000');
   die();
 }
@@ -16,7 +16,7 @@ header('Access-Control-Allow-Origin: *');
 
 $headers = apache_request_headers();
 
-if (!$headers["Authorization"]) {
+if (!$headers["authorization"]) {
   $response = [
     'message' => "No authorization header"
   ];
@@ -25,7 +25,7 @@ if (!$headers["Authorization"]) {
   return;
 }
 
-$token_auth = $headers["Authorization"];
+$token_auth = $headers["authorization"];
 
 if (!$token_auth) {
   $response = [
@@ -37,7 +37,7 @@ if (!$token_auth) {
 }
 
 try {
-  $token_auth = $headers["Authorization"];
+  $token_auth = $headers["authorization"];
   $token_decode = decodeToken($token_auth);
 
   $id = $_POST["id"];
