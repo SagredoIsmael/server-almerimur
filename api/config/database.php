@@ -39,8 +39,12 @@ function api_post($query){
     if (!$result) {
       die(mysqli_error($GLOBALS["conn"]));
     }
+    $lastInsertedId = mysqli_insert_id($GLOBALS["conn"]);
     api_close();
-    return $result;
+    $response = [
+      "id" => $lastInsertedId
+    ];
+    return $response;
   } catch(Exception $e) {
     die ("Error". $e);
   }

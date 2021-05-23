@@ -39,28 +39,15 @@ if (!$token_auth) {
 try {
   $token_auth = $headers["authorization"];
   $token_decode = decodeToken($token_auth);
-
-  
   $user_id = $token_decode->id;
-  $id = $_POST["id"];
-  $client_name = $_POST["client"] ? $_POST["client"] : "NULL";  
-  $project_name = $_POST["project"] ? $_POST["project"] : "NULL";
-  $date= $_POST["date"] ? $_POST["date"] : "NULL";
-  $vehicle = $_POST["vehicle"] ? $_POST["vehicle"] : "NULL";
-  $concept = $_POST["concept"] ? $_POST["concept"] : "NULL";
-  $hours = $_POST["hours"] ? $_POST["hours"] : "NULL";
-  $travels = $_POST["travels"] ? $_POST["travels"] : "NULL";
-  $comments = $_POST["comments"] ? $_POST["comments"] : "NULL";
 
+  $query = "SELECT * FROM mechanic_work WHERE mechanic_work_user_id='$user_id' ORDER BY mechanic_work_created_at";
 
-  $query = "UPDATE driver_work SET driver_work_client_name='$client_name', driver_work_project_name='$project_name', driver_work_date='$date', driver_work_vehicle_name='$vehicle', driver_work_concept='$concept', driver_work_hours='$hours', driver_work_travels='$travels', driver_work_comments='$comments' WHERE driver_work_id='$id'";
-
-  $query = str_replace("'NULL'", "NULL", $query);
-
-  api_post($query);
+  $result = api_get($query);
 
   $response = [
-    'message' => "Trabajo actualizado",
+    'message' => "Trabajos obtenidos",
+    'works' => $result
   ];
 
   echo json_encode($response);

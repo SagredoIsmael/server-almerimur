@@ -40,27 +40,22 @@ try {
   $token_auth = $headers["authorization"];
   $token_decode = decodeToken($token_auth);
 
-  
   $user_id = $token_decode->id;
-  $id = $_POST["id"];
   $client_name = $_POST["client"] ? $_POST["client"] : "NULL";  
-  $project_name = $_POST["project"] ? $_POST["project"] : "NULL";
+  $machine_name = $_POST["machine"] ? $_POST["machine"] : "NULL";
   $date= $_POST["date"] ? $_POST["date"] : "NULL";
-  $vehicle = $_POST["vehicle"] ? $_POST["vehicle"] : "NULL";
-  $concept = $_POST["concept"] ? $_POST["concept"] : "NULL";
   $hours = $_POST["hours"] ? $_POST["hours"] : "NULL";
-  $travels = $_POST["travels"] ? $_POST["travels"] : "NULL";
-  $comments = $_POST["comments"] ? $_POST["comments"] : "NULL";
+  $works = $_POST["works"] ? $_POST["works"] : "NULL";
 
-
-  $query = "UPDATE driver_work SET driver_work_client_name='$client_name', driver_work_project_name='$project_name', driver_work_date='$date', driver_work_vehicle_name='$vehicle', driver_work_concept='$concept', driver_work_hours='$hours', driver_work_travels='$travels', driver_work_comments='$comments' WHERE driver_work_id='$id'";
+  $query = "INSERT INTO mechanic_work(mechanic_work_user_id, mechanic_work_client_name, mechanic_work_machine_name, mechanic_work_date, mechanic_work_hours, mechanic_work_works) VALUES ('$user_id', '$client_name', '$machine_name', '$date', '$hours', '$works')";
 
   $query = str_replace("'NULL'", "NULL", $query);
 
-  api_post($query);
+  $result = api_post($query);
 
   $response = [
-    'message' => "Trabajo actualizado",
+    'message' => "Trabajo creado",
+    'work' => $result,
   ];
 
   echo json_encode($response);
@@ -70,7 +65,7 @@ try {
     'message' => $e
   ];
   echo json_encode($response);
-  header("HTTP/1.1 401 '$e'");
+  header("HTTP/1.1 401 Error '$e'");
 }
 
 ?>
