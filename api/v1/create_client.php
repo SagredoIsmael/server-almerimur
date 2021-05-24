@@ -16,7 +16,10 @@ header('Access-Control-Allow-Origin: *');
 
 $headers = apache_request_headers();
 
-if (!$headers["authorization"]) {
+
+$token_auth = $headers["authorization"] ? $headers["authorization"] : $headers["Authorization"];
+
+if (!$token_auth) {
   $response = [
     'message' => "No authorization header"
   ];
@@ -25,19 +28,8 @@ if (!$headers["authorization"]) {
   return;
 }
 
-$token_auth = $headers["authorization"];
-
-if (!$token_auth) {
-  $response = [
-    'message' => "Debe tener autorizacion, contacte con el administrador."
-  ];
-  echo json_encode($response);
-  header("HTTP/1.1 401 Not authorization");
-  return;
-}
-
 try {
-  $token_auth = $headers["authorization"];
+  $token_auth = $headers["authorization"] ? $headers["authorization"] : $headers["Authorization"];
   $token_decode = decodeToken($token_auth);
 
   $name = $_POST["name"];

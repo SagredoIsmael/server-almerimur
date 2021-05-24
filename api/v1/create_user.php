@@ -14,6 +14,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 header('Access-Control-Allow-Origin: *');
 
+$headers = apache_request_headers();
+
+$token_auth = $headers["authorization"] ? $headers["authorization"] : $headers["Authorization"];
+
+if (!$token_auth) {
+  $response = [
+    'message' => "No authorization header"
+  ];
+  echo json_encode($response);
+  header("HTTP/1.1 401 No authorization header");
+  return;
+}
+
 // Check if has a file
 if ($_FILES['image']) {
 
@@ -34,30 +47,8 @@ if ($_FILES['image']) {
   $GLOBALS["file_image"] = "";
 }
 
-$headers = apache_request_headers();
-
-if (!$headers["authorization"]) {
-  $response = [
-    'message' => "No authorization header"
-  ];
-  echo json_encode($response);
-  header("HTTP/1.1 401 No authorization header");
-  return;
-}
-
-$token_auth = $headers["authorization"];
-
-if (!$token_auth) {
-  $response = [
-    'message' => "Debe tener autorizacion, contacte con el administrador."
-  ];
-  echo json_encode($response);
-  header("HTTP/1.1 401 Not authorization");
-  return;
-}
-
 try {
-  $token_auth = $headers["authorization"];
+  $token_auth = $headers["authorization"] ? $headers["authorization"] : $headers["Authorization"];
   $token_decode = decodeToken($token_auth);
 
   $role = $_POST["role"];
@@ -81,7 +72,7 @@ try {
     'message' => $e
   ];
   echo json_encode($response);
-  header("HTTP/1.1 401 '$e'");
+  header("HTTP/1.1 400 '$e'");
 }
 
 ?>

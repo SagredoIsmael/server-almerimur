@@ -13,19 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 header('Access-Control-Allow-Origin: *');
 
-
 $headers = apache_request_headers();
 
-if (!$headers["authorization"]) {
-  $response = [
-    'message' => "No authorization header"
-  ];
-  echo json_encode($response);
-  header("HTTP/1.1 401 No authorization header");
-  return;
-}
-
-$token_auth = $headers["authorization"];
+$token_auth = $headers["authorization"] ? $headers["authorization"] : $headers["Authorization"];;
 
 if (!$token_auth) {
   $response = [
@@ -37,7 +27,7 @@ if (!$token_auth) {
 }
 
 try {
-  $token_auth = $headers["authorization"];
+  $token_auth = $headers["authorization"] ? $headers["authorization"] : $headers["Authorization"];;
   $token_decode = decodeToken($token_auth);
   $user_id = $token_decode->id;
 

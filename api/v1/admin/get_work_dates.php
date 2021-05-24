@@ -1,7 +1,7 @@
 <?php
 
-include "../config/database.php";
-include "../helpers/token.php";
+include __DIR__."/../../config/database.php";
+include __DIR__."/../../helpers/token.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   header('Access-Control-Allow-Origin: *');
@@ -12,8 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 header('Access-Control-Allow-Origin: *');
-
-$headers = apache_request_headers();
 
 $token_auth = $headers["authorization"] ? $headers["authorization"] : $headers["Authorization"];
 
@@ -27,16 +25,21 @@ if (!$token_auth) {
 }
 
 try {
-  $token_auth = $headers["authorization"] ? $headers["authorization"] : $headers["Authorization"];;
+  $token_auth = $headers["authorization"] ? $headers["authorization"] : $headers["Authorization"];
   $token_decode = decodeToken($token_auth);
+  $user_id = $token_decode->id;
 
-  $query = "SELECT * FROM machine";
+  $query_driver = "SELECT driver_work_date FROM driver_work ORDER BY driver_work_date";
+  $query_mechanic = "SELECT mechanic_work_date FROM mechanic_work ORDER BY mechanic_work_date";
 
-  $result = api_get($query);
+  $result_driver = api_get($query_driver);
+  $result_mechanic = api_get($query_mechanic);
+
+  $result = array_merge($result_driver, $result_mechanic);
 
   $response = [
-    'message' => "Maquinas obtenidas",
-    'machines' => $result
+    'message' => "Fechas de trabajos obtenidos",
+    'dates' => $result,
   ];
 
   echo json_encode($response);
