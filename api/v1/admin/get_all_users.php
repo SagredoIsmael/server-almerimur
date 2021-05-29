@@ -31,50 +31,23 @@ try {
   $token_decode = decodeToken($token_auth);
   $user_id = $token_decode->id;
 
-  $query_driver = "SELECT driver_work_date FROM driver_work ORDER BY driver_work_date";
-  $query_mechanic = "SELECT mechanic_work_date FROM mechanic_work ORDER BY mechanic_work_date";
+  $query = "SELECT user_id as id, user_role as role, user_name as name, user_hourly as hourly FROM user";
 
-  $result_driver = api_get($query_driver);
-  $result_mechanic = api_get($query_mechanic);
+  $result = api_get($query);
 
-  if (!$result_driver && !$result_mechanic) {
+  if (!$result) {
     $response = [
-      'message' => "Fechas de trabajos obtenidos",
-      'dates' => [],
+      'message' => "Usuarios obtenidos",
+      'users' => [],
     ];
-
     echo json_encode($response);
     header("HTTP/1.1 200 OK");
     return;
   }
-
-  if ($result_driver && !$result_mechanic) {
-    $response = [
-      'message' => "Fechas de trabajos obtenidos",
-      'dates' => $result_driver,
-    ];
-
-    echo json_encode($response);
-    header("HTTP/1.1 200 OK");
-    return;
-  }
-
-  if (!$result_driver && $result_mechanic) {
-    $response = [
-      'message' => "Fechas de trabajos obtenidos",
-      'dates' => $result_mechanic,
-    ];
-
-    echo json_encode($response);
-    header("HTTP/1.1 200 OK");
-    return;
-  }
-
-  $result = array_merge($result_driver, $result_mechanic);
 
   $response = [
-    'message' => "Fechas de trabajos obtenidos",
-    'dates' => $result,
+    'message' => "Uusarios obtenidos",
+    'users' => $result,
   ];
 
   echo json_encode($response);
