@@ -37,7 +37,7 @@ try {
    $query = str_replace("'NULL'", "NULL", $query);
    $result = api_get($query);
    $response = [
-     'message' => "Recambio creado",
+     'message' => "Recambio obtenido",
      'rechanges' => $result,
    ];
    echo json_encode($response);
