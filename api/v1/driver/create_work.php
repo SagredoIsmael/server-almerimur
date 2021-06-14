@@ -32,16 +32,16 @@ try {
   $token_decode = decodeToken($token_auth);
 
   $user_id = $token_decode->id;
-  $client_name = $_POST["client"] ? $_POST["client"] : "NULL";  
-  $project_name = $_POST["project"] ? $_POST["project"] : "NULL";
+  $client_id= $_POST["client"] ? $_POST["client"] : "NULL";  
+  $project_id= $_POST["project"] ? $_POST["project"] : "NULL";
   $date= $_POST["date"] ? $_POST["date"] : "NULL";
-  $vehicle = $_POST["vehicle"] ? $_POST["vehicle"] : "NULL";
+  $vehicle_id = $_POST["vehicle"] ? $_POST["vehicle"] : "NULL";
   $concept = $_POST["concept"] ? $_POST["concept"] : "NULL";
   $hours = $_POST["hours"] ? $_POST["hours"] : "NULL";
   $travels = $_POST["travels"] ? $_POST["travels"] : "NULL";
   $comments = $_POST["comments"] ? $_POST["comments"] : "NULL";
 
-  $query = "INSERT INTO driver_work(driver_work_user_id, driver_work_client_name, driver_work_project_name, driver_work_date, driver_work_vehicle_name, driver_work_concept, driver_work_hours, driver_work_travels, driver_work_comments) VALUES ('$user_id', '$client_name', '$project_name', '$date', '$vehicle', '$concept', '$hours', '$travels', '$comments')";
+  $query = "INSERT INTO driver_work(driver_work_user_id, driver_work_client_id, driver_work_project_id, driver_work_date, driver_work_vehicle_id, driver_work_concept, driver_work_hours, driver_work_travels, driver_work_comments) VALUES ('$user_id', '$client_id', '$project_id', '$date', '$vehicle_id', '$concept', '$hours', '$travels', '$comments')";
 
   $query = str_replace("'NULL'", "NULL", $query);
 

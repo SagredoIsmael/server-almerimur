@@ -31,13 +31,13 @@ try {
   $token_decode = decodeToken($token_auth);
 
   $user_id = $token_decode->id;
-  $client_name = $_POST["client"] ? $_POST["client"] : "NULL";  
-  $machine_name = $_POST["machine"] ? $_POST["machine"] : "NULL";
+  $client_id = $_POST["client"] ? $_POST["client"] : "NULL";  
+  $machine_id = $_POST["machine"] ? $_POST["machine"] : "NULL";
   $date= $_POST["date"] ? $_POST["date"] : "NULL";
   $hours = $_POST["hours"] ? $_POST["hours"] : "NULL";
   $works = $_POST["works"] ? $_POST["works"] : "NULL";
 
-  $query = "INSERT INTO mechanic_work(mechanic_work_user_id, mechanic_work_client_name, mechanic_work_machine_name, mechanic_work_date, mechanic_work_hours, mechanic_work_works) VALUES ('$user_id', '$client_name', '$machine_name', '$date', '$hours', '$works')";
+  $query = "INSERT INTO mechanic_work(mechanic_work_user_id, mechanic_work_client_id, mechanic_work_machine_id, mechanic_work_date, mechanic_work_hours, mechanic_work_works) VALUES ('$user_id', '$client_id', '$machine_id', '$date', '$hours', '$works')";
 
   $query = str_replace("'NULL'", "NULL", $query);
 

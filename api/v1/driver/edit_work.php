@@ -34,17 +34,17 @@ try {
   
   $user_id = $token_decode->id;
   $id = $_POST["id"];
-  $client_name = $_POST["client"] ? $_POST["client"] : "NULL";  
-  $project_name = $_POST["project"] ? $_POST["project"] : "NULL";
+  $client_id = $_POST["client"] ? $_POST["client"] : "NULL";  
+  $project_id = $_POST["project"] ? $_POST["project"] : "NULL";
   $date= $_POST["date"] ? $_POST["date"] : "NULL";
-  $vehicle = $_POST["vehicle"] ? $_POST["vehicle"] : "NULL";
+  $vehicle_id = $_POST["vehicle"] ? $_POST["vehicle"] : "NULL";
   $concept = $_POST["concept"] ? $_POST["concept"] : "NULL";
   $hours = $_POST["hours"] ? $_POST["hours"] : "NULL";
   $travels = $_POST["travels"] ? $_POST["travels"] : "NULL";
   $comments = $_POST["comments"] ? $_POST["comments"] : "NULL";
 
 
-  $query = "UPDATE driver_work SET driver_work_client_name='$client_name', driver_work_project_name='$project_name', driver_work_date='$date', driver_work_vehicle_name='$vehicle', driver_work_concept='$concept', driver_work_hours='$hours', driver_work_travels='$travels', driver_work_comments='$comments' WHERE driver_work_id='$id'";
+  $query = "UPDATE driver_work SET driver_work_client_id='$client_id', driver_work_project_id='$project_id', driver_work_date='$date', driver_work_vehicle_id='$vehicle_id', driver_work_concept='$concept', driver_work_hours='$hours', driver_work_travels='$travels', driver_work_comments='$comments' WHERE driver_work_id='$id'";
 
   $query = str_replace("'NULL'", "NULL", $query);
 

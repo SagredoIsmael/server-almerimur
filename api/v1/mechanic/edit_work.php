@@ -34,13 +34,13 @@ try {
   
   $user_id = $token_decode->id;
   $id = $_POST["id"];
-  $client_name = $_POST["client"] ? $_POST["client"] : "NULL";  
-  $machine_name = $_POST["machine"] ? $_POST["machine"] : "NULL";
+  $client_id = $_POST["client"] ? $_POST["client"] : "NULL";  
+  $machine_id = $_POST["machine"] ? $_POST["machine"] : "NULL";
   $date= $_POST["date"] ? $_POST["date"] : "NULL";
   $hours = $_POST["hours"] ? $_POST["hours"] : "NULL";
   $works = $_POST["works"] ? $_POST["works"] : "NULL";
 
-  $query = "UPDATE mechanic_work SET mechanic_work_client_name='$client_name', mechanic_work_machine_name='$machine_name', mechanic_work_date='$date', mechanic_work_hours='$hours', mechanic_work_works='$works' WHERE mechanic_work_id='$id'";
+  $query = "UPDATE mechanic_work SET mechanic_work_client_id='$client_id', mechanic_work_machine_id='$machine_id', mechanic_work_date='$date', mechanic_work_hours='$hours', mechanic_work_works='$works' WHERE mechanic_work_id='$id'";
 
   $query = str_replace("'NULL'", "NULL", $query);
 
