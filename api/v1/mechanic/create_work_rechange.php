@@ -31,11 +31,11 @@ try {
   $token_auth = $headers["authorization"] ? $headers["authorization"] : $headers["Authorization"];;
   $token_decode = decodeToken($token_auth);
 
-  $title = $_POST["title"] ? $_POST["title"] : "NULL";  
   $number = $_POST["number"] ? $_POST["number"] : "NULL";
   $id_work = $_POST["id_work"] ? $_POST["id_work"] : "NULL";
+  $id_rechange = $_POST["id_rechange"] ? $_POST["id_rechange"] : "NULL";
 
-  $query = "INSERT INTO mechanic_rechange(mechanic_rechange_work_id, mechanic_rechange_title, mechanic_rechange_number) VALUES ('$id_work', '$title', '$number')";
+  $query = "INSERT INTO mechanic_rechange(mechanic_rechange_work_id, mechanic_rechange_number, rechange_id) VALUES ('$id_work', '$number', '$id_rechange')";
 
   $query = str_replace("'NULL'", "NULL", $query);
 

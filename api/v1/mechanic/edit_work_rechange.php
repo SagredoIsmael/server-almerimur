@@ -34,11 +34,11 @@ try {
   
   $user_id = $token_decode->id;
   $id = $_POST["id"];
-  $title = $_POST["title"] ? $_POST["title"] : "NULL";
   $number = $_POST["number"] ? $_POST["number"] : "NULL";
+  $id_rechange = $_POST["id_rechange"] ? $_POST["id_rechange"] : "NULL";
 
   if ($id) {
-    $query = "UPDATE mechanic_rechange SET mechanic_rechange_title='$title', mechanic_rechange_number='$number' WHERE mechanic_rechange_id='$id'";
+    $query = "UPDATE mechanic_rechange SET mechanic_rechange_number='$number', rechange_id='$id_rechange' WHERE mechanic_rechange_id='$id'";
 
     $query = str_replace("'NULL'", "NULL", $query);
     api_post($query);
