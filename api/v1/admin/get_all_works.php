@@ -30,7 +30,7 @@ try {
   $token_auth = $headers["authorization"] ? $headers["authorization"] : $headers["Authorization"];
   $token_decode = decodeToken($token_auth);
 
-  $query_driver = "SELECT driver_work_id as id, driver_work_date as date, vehicle_name as machine, user_name as userName, user_role as role, project_name as project, client_name as client, driver_work_hours as hours, driver_work_created_at as createdAt, user_hourly as hourly FROM driver_work INNER JOIN user ON user_id = driver_work_user_id INNER JOIN client ON driver_work_client_id = client_id INNER JOIN project ON driver_work_project_id = project_id INNER JOIN vehicle ON driver_work_vehicle_id = vehicle_id ORDER BY driver_work_date";
+  $query_driver = "SELECT driver_work_id as id, driver_work_date as date, machine_name as machine, user_name as userName, user_role as role, project_name as project, client_name as client, driver_work_hours as hours, driver_work_created_at as createdAt, user_hourly as hourly FROM driver_work INNER JOIN user ON user_id = driver_work_user_id INNER JOIN client ON driver_work_client_id = client_id INNER JOIN project ON driver_work_project_id = project_id INNER JOIN machine ON driver_work_vehicle_id = machine_id ORDER BY driver_work_date";
 
   $query_mechanic = "SELECT mechanic_work_id as id, mechanic_work_date as date, machine_name as machine, client_name as client, mechanic_work_hours as hours, mechanic_work_created_at as createdAt, user_name as userName, user_role as role, user_hourly as hourly FROM mechanic_work INNER JOIN user ON user_id = mechanic_work_user_id INNER JOIN client ON mechanic_work_client_id = client_id INNER JOIN machine ON mechanic_work_machine_id = machine_id ORDER BY mechanic_work_date";
 
